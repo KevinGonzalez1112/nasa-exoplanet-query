@@ -1,0 +1,16 @@
+.data-table
+{
+    display: flex;
+    flex-direction: column;
+
+    .data-row
+    {
+        display: flex;
+        flex-direction: row;
+
+        .data-cell
+        {
+            min-width: 10vw;
+        }
+    }
+}
