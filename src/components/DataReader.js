@@ -56,7 +56,7 @@ const DataReader = (file) =>
 
       // Finally, return the output for further use
 
-      return dataObjects;
+      return {headers, dataObjects};
     })
 
     // Catch any errors that occur during the fetch or processing

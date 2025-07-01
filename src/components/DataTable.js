@@ -18,8 +18,9 @@ import '../assets/styles/TableData.scss';
 
 const DataTable = () => 
 {
-    // Creating a state variable to hold the data fetched from the CSV file
+    // Creating state variables to hold the data fetched from the CSV file
 
+    const [headers, setHeaders] = useState([]);
     const [data, setData] = useState([]);
 
     // Using useEffect to fetch the data when the component mounts
@@ -27,37 +28,48 @@ const DataTable = () =>
     useEffect(() => 
     {
         DataReader('./data/30-06-25.csv').then(fetchedData => 
-        {
-            setData(fetchedData);
+        {   
+            setHeaders(fetchedData.headers);
+            setData(fetchedData.dataObjects);
         })
     }, []);
 
     // Rendering the data in a simple format, displaying only the first 10 rows for testing
 
     return (
-        <div className = "data-table">
-            {
-                data.slice(0, 2).map((row, index) => // Filter for testing 
-                {
-                    return (
-                        <div className = 'data-row' key = {index}>
-                            {
-                                Object.entries(row)
-                                .map(([key, value]) => 
+        <div className = "table-container">
+            <table className="data-table">
+                <thead>
+                    <tr className = "header-row">
+                        {
+                            headers.map((header, index) => (
+                                <th className = "header-cell" key = {index}> {header} </th>
+                            ))
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        data.slice(0, 20).map((row, index) =>
+                        (
+                            <tr className = "data-row" key = {index}>
                                 {
-                                    return (
-                                        <p className = 'data-cell' key = {key}> 
+                                    Object.entries(row).map(([key, value]) => 
+                                    (
+                                        <td className = 'data-cell' key = {key}> 
                                             {value} 
-                                        </p>
-                                    )
-                                })
-                            }
-                        </div>
-                    )
-                })
-            }
+                                        </td>
+                                    ))
+                                }
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </table>
         </div>
     );
 }
 
 export default DataTable;
+
+
